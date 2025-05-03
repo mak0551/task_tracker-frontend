@@ -2,7 +2,7 @@
 
 This is the **ReactJS frontend** for the Task Tracker application. Users can sign up, log in, manage up to 4 projects, and track tasks within those projects.
 
-## 🌐 Live Preview (if hosted)
+## 🌐 Live Preview 
 > [[Visit Live Site](https://task-tracker-frontend-sigma.vercel.app/login)](#)
 
 ## 🔍 Features
