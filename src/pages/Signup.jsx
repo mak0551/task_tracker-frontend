@@ -7,23 +7,30 @@ export default function Signup() {
     name: "",
     email: "",
     password: "",
-    country: "",
   });
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:4020/api/auth/signup", form);
+    try {
+      console.log(form);
+      const res = await axios.post(
+        "http://localhost:4020/api/auth/signup",
+        form
+      );
+      console.log(res.data);
+    } catch (err) {
+      return alert("❌ Signup Failed: " + err.message);
+    }
     navigate("/login");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-green-100">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow w-96"
+        className="bg-green-200 p-6 rounded-lg shadow-2xl w-96"
       >
-        <h2 className="text-2xl mb-4">Signup</h2>
         {Object.keys(form).map((key) => (
           <input
             key={key}
@@ -36,9 +43,12 @@ export default function Signup() {
           />
         ))}
         <div className="flex flex-col gap-4 items-center justify-center">
-          <h1 className="text-center text-sm">
-            already have an account{" "}
-            <Link to={"/login"} className="text-blue-800 underline">
+          <h1 className="text-center text-green-950 text-sm">
+            <span className="text-xs">already have an account </span>
+            <Link
+              to={"/login"}
+              className="text-green-900 font-medium underline"
+            >
               Login
             </Link>
           </h1>

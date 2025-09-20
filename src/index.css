@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 .input {
-  @apply border p-2 rounded w-full mb-2;
+  @apply border p-2 rounded-md w-full mb-2 text-sm;
 }
 
 .btn {
-  @apply bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700;
+  @apply bg-green-900 text-white px-4  text-sm py-2 rounded-md hover:bg-green-800 hover:scale-105 transition-transform duration-200;
 }

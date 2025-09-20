@@ -20,12 +20,11 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-green-100">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow w-96"
+        className="bg-green-200 p-6 rounded-lg shadow-2xl w-96"
       >
-        <h2 className="text-2xl mb-4">Login</h2>
         <input
           type="email"
           placeholder="Email"
@@ -43,10 +42,13 @@ export default function Login() {
           required
         />
         <div className="flex flex-col gap-4 items-center justify-center">
-          <h1 className="text-center text-sm">
-            Don't have an account{" "}
-            <Link to={"/signup"} className="text-blue-800 underline">
-              signup
+          <h1 className="text-center text-green-950 text-sm">
+            <span className="text-xs">Don't have an account </span>
+            <Link
+              to={"/signup"}
+              className="text-green-900 font-medium underline"
+            >
+              Signup
             </Link>
           </h1>
           <button className="btn">Login</button>

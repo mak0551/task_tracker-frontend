@@ -1,45 +1,60 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import Login from "./pages/Login";
+import React from "react";
+import Navbar from "./components/Navbar";
+import MainSection from "./pages/MainSection";
+import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
+import CalendarPage from "./pages/CalendarPage";
+import { AuthProvider } from "./context/AuthContext";
 import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard";
-import Project from "./pages/Project";
-import { AuthProvider, useAuth } from "./context/AuthContext";
+import Login from "./pages/Login";
+import PrivateRoute from "./components/PrivateRoute";
 
-const PrivateRoute = ({ children }) => {
-  const { token } = useAuth();
-  return token ? children : <Navigate to="/login" />;
-};
+function Layout({ children }) {
+  const location = useLocation();
+  const hideNavbar =
+    location.pathname === "/login" || location.pathname === "/signup";
 
-export default function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/project/:id"
-            element={
-              <PrivateRoute>
-                <Project />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <>
+      {!hideNavbar && <Navbar />}
+      {children}
+    </>
   );
 }
+
+function App() {
+  return (
+    <div className="bg-green-100 w-full min-h-screen">
+      <Router>
+        <AuthProvider>
+          <Layout>
+            <Routes>
+              {/* Public routes */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+
+              {/* Protected routes */}
+              <Route
+                path="/"
+                element={
+                  <PrivateRoute>
+                    <CalendarPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/tasks/:date"
+                element={
+                  <PrivateRoute>
+                    <MainSection />
+                  </PrivateRoute>
+                }
+              />
+            </Routes>
+          </Layout>
+        </AuthProvider>
+      </Router>
+    </div>
+  );
+}
+
+export default App;
