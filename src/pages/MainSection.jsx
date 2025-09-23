@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext"; // adjust path
+import { toast } from "react-toastify";
+import Loader from "../components/Loader";
 
 const initialTasks = {
   fajr: { done: false, comment: "" },
@@ -25,6 +27,8 @@ function MainSection() {
   const { date: routeDate } = useParams(); // get date from URL
   const [tasks, setTasks] = useState(initialTasks);
   const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
+  const navigate = useNavigate();
 
   // Normalize API response to match initialTasks structure
   const normalizeTasks = (data) => {
@@ -43,8 +47,8 @@ function MainSection() {
   useEffect(() => {
     const fetchTasks = async () => {
       if (!routeDate) return;
-      setLoading(true);
       try {
+        setLoad(true);
         const res = await axios.get(
           `https://task-tracker-server-9z60.onrender.com/api/tasks/getbydate/${routeDate}`,
           { headers }
@@ -54,11 +58,14 @@ function MainSection() {
         } else {
           setTasks(initialTasks);
         }
+        setLoad(false);
       } catch (err) {
-        console.error("Error fetching tasks:", err);
+        setLoad(false);
+        console.log(err);
+        toast.error(err?.response?.data?.error || "Error fetching tasks");
         setTasks(initialTasks);
       } finally {
-        setLoading(false);
+        setLoad(false);
       }
     };
     fetchTasks();
@@ -84,19 +91,22 @@ function MainSection() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!routeDate) return alert("Date is missing!");
-
-    const payload = { date: routeDate, ...tasks };
     try {
-      const res = await axios.post(
+      setLoading(true);
+      const payload = { date: routeDate, ...tasks };
+      await axios.post(
         "https://task-tracker-server-9z60.onrender.com/api/tasks/add",
         payload,
         { headers }
       );
-      console.log("Tasks saved:", res.data);
-      alert("Tasks saved successfully!");
+      setLoading(false);
+      navigate("/");
+      toast.success("Saved successfully!");
     } catch (err) {
-      console.error("Error saving tasks:", err);
-      alert("Failed to save tasks");
+      setLoading(false);
+      console.log(err);
+      toast.error("Error saving form:", err);
+      return;
     }
   };
   const formattedDate = new Date(routeDate).toLocaleDateString("en-GB", {
@@ -109,7 +119,7 @@ function MainSection() {
     <div className="max-w-4xl mx-auto p-4 font-mono">
       <h1 className="text-2xl font-bold mb-4">Date: {formattedDate}</h1>
 
-      {loading ? (
+      {load ? (
         <p>Loading...</p>
       ) : (
         <form onSubmit={handleSubmit} className="w-full">
@@ -170,9 +180,15 @@ function MainSection() {
               </tbody>
             </table>
           </div>
-          <div className="mt-4 text-center sm:text-right">
-            <button type="submit" className="btn">
-              Save
+          <div className="mt-4 justify-start sm:justify-end flex gap-2">
+            <button
+              type="submit"
+              className="btn flex justify-center items-center gap-2"
+            >
+              Save {loading && <Loader />}
+            </button>
+            <button onClick={()=>navigate('/')} className="bg-green-50 border-2 border-green-900 text-green-900 px-4  text-sm py-2 rounded-md hover:bg-green-100 hover:scale-105 transition-transform duration-200">
+              Back
             </button>
           </div>
         </form>

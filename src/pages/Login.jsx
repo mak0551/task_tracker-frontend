@@ -1,26 +1,45 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
+import { toast } from "react-toastify";
+import Loader from "../components/Loader";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, userName } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const { login, userName, token } = useAuth();
   const navigate = useNavigate();
+
+  if (token) {
+    return <Navigate to="/" replace />;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await axios.post(
-      "https://task-tracker-server-9z60.onrender.com/api/auth/login",
-      {
-        email,
-        password,
-      }
-    );
-    login(res.data.token);
-    userName(res.data.user.name);
-    navigate("/");
+    try {
+      setLoading(true);
+      const res = await axios.post(
+        "https://task-tracker-server-9z60.onrender.com/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
+      toast.success("Login successful");
+      login(res.data.token);
+      userName(res.data.user.name);
+      navigate("/");
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      toast.error(
+        err?.response?.data?.message ||
+          "Login failed. Please check your credentials"
+      );
+      setLoading(false);
+    }
   };
 
   return (
@@ -55,7 +74,9 @@ export default function Login() {
               Signup
             </Link>
           </h1>
-          <button className="btn">Login</button>
+          <button className="btn flex justify-center items-center gap-2">
+            Login {loading && <Loader />}
+          </button>
         </div>
       </form>
     </div>

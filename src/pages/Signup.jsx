@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Loader from "../components/Loader";
+import { toast } from "react-toastify";
 
 export default function Signup() {
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -13,14 +16,19 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(form);
+      setLoading(true);
       const res = await axios.post(
         "https://task-tracker-server-9z60.onrender.com/api/auth/signup",
         form
       );
-      console.log(res.data);
+      setLoading(false);
+      toast.success("Signup successful, Please login");
     } catch (err) {
-      return alert("❌ Signup Failed: " + err.message);
+      setLoading(false);
+      toast.error(
+        err?.response?.data?.message || "Signup failed. Please try again."
+      );
+      return;
     }
     navigate("/login");
   };
@@ -52,7 +60,9 @@ export default function Signup() {
               Login
             </Link>
           </h1>
-          <button className="btn">Signup</button>
+          <button className="btn flex justify-center items-center gap-2">
+            Signup {loading && <Loader />}
+          </button>
         </div>
       </form>
     </div>

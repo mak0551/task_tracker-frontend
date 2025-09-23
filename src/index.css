@@ -5,5 +5,11 @@
 }
 
 .btn {
-  @apply bg-green-900 text-white px-4  text-sm py-2 rounded-md hover:bg-green-800 hover:scale-105 transition-transform duration-200;
+  @apply bg-green-900 border-2 border-green-900 text-white px-4  text-sm py-2 rounded-md hover:bg-green-800 hover:scale-105 transition-transform duration-200;
+}
+
+.react-calendar abbr {
+  text-decoration: none !important;
+  cursor: default; /* optional: removes the pointer cursor */
+  color: var(--color-green-900);
 }
