@@ -112,59 +112,65 @@ function MainSection() {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <form onSubmit={handleSubmit}>
-          <table className="w-full border-collapse border border-gray-300">
-            <thead>
-              <tr className="bg-green-200">
-                <th className="border px-4 py-2 text-left">Task</th>
-                <th className="border px-4 py-2">Done</th>
-                <th className="border px-4 py-2">Comment</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.keys(tasks).map((taskName) => {
-                const task = tasks[taskName] || { done: false, comment: "" };
-                return (
-                  <tr key={taskName} className="hover:bg-green-100">
-                    <td className="border px-4 py-2 capitalize text-center">
-                      {taskName === "asmaulhusna"
-                        ? "Asma-Ul-Husna"
-                        : taskName === "dalailulkhairat"
-                        ? "Dalail-Ul-Khairat"
-                        : taskName === "tasawwureshaikh"
-                        ? "Tasawwur-e-Shaikh"
-                        : taskName === "duroodCount"
-                        ? "Durood Shareef"
-                        : taskName}
-                    </td>
-                    <td className="border px-4 py-2 text-center">
-                      {"done" in task ? (
-                        <input
-                          type="checkbox"
-                          className="form-checkbox h-5 w-5 text-green-600"
-                          checked={task.done}
-                          onChange={() => handleCheckboxChange(taskName)}
+        <form onSubmit={handleSubmit} className="w-full">
+          <div className="overflow-x-auto">
+            <table className="min-w-[600px] w-full border-collapse border border-gray-300 text-sm sm:text-base">
+              <thead>
+                <tr className="bg-green-200">
+                  <th className="border border-r-0 px-4 py-2 text-center">
+                    Task
+                  </th>
+                  <th className="border border-x-0 px-2 sm:px-4 py-2">Done</th>
+                  <th className="border border-l-0 px-2 sm:px-4 py-2">
+                    Comment
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.keys(tasks).map((taskName) => {
+                  const task = tasks[taskName] || { done: false, comment: "" };
+                  return (
+                    <tr key={taskName} className="hover:bg-green-200">
+                      <td className="border border-r-0 px-4 py-2 capitalize text-center">
+                        {taskName === "asmaulhusna"
+                          ? "Asma-Ul-Husna"
+                          : taskName === "dalailulkhairat"
+                          ? "Dalail-Ul-Khairat"
+                          : taskName === "tasawwureshaikh"
+                          ? "Tasawwur-e-Shaikh"
+                          : taskName === "duroodCount"
+                          ? "Durood Shareef"
+                          : taskName}
+                      </td>
+                      <td className="border border-x-0 px-2 sm:px-4 py-2 text-center">
+                        {"done" in task ? (
+                          <input
+                            type="checkbox"
+                            className="form-checkbox h-5 w-5 text-green-600"
+                            checked={task.done}
+                            onChange={() => handleCheckboxChange(taskName)}
+                          />
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                      <td className="border border-l-0 border-t-0 px-4 py-2 flex items-center">
+                        <textarea
+                          placeholder="Comment..."
+                          value={task.comment}
+                          onChange={(e) =>
+                            handleCommentChange(taskName, e.target.value)
+                          }
+                          className="w-full border rounded px-2 py-1"
                         />
-                      ) : (
-                        "-"
-                      )}
-                    </td>
-                    <td className="border px-4 py-2">
-                      <textarea
-                        placeholder="Comment..."
-                        value={task.comment}
-                        onChange={(e) =>
-                          handleCommentChange(taskName, e.target.value)
-                        }
-                        className="w-full border rounded px-2 py-1"
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <div className="mt-4">
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-4 text-center sm:text-right">
             <button type="submit" className="btn">
               Save
             </button>

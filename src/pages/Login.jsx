@@ -6,7 +6,7 @@ import axios from "axios";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
+  const { login, userName } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -16,6 +16,7 @@ export default function Login() {
       password,
     });
     login(res.data.token);
+    userName(res.data.user.name);
     navigate("/");
   };
 
