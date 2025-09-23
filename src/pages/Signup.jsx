@@ -15,7 +15,7 @@ export default function Signup() {
     try {
       console.log(form);
       const res = await axios.post(
-        "http://localhost:4020/api/auth/signup",
+        "https://task-tracker-server-9z60.onrender.com/api/auth/signup",
         form
       );
       console.log(res.data);

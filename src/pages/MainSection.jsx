@@ -46,7 +46,7 @@ function MainSection() {
       setLoading(true);
       try {
         const res = await axios.get(
-          `http://localhost:4020/api/tasks/getbydate/${routeDate}`,
+          `https://task-tracker-server-9z60.onrender.com/api/tasks/getbydate/${routeDate}`,
           { headers }
         );
         if (res.data) {
@@ -88,7 +88,7 @@ function MainSection() {
     const payload = { date: routeDate, ...tasks };
     try {
       const res = await axios.post(
-        "http://localhost:4020/api/tasks/add",
+        "https://task-tracker-server-9z60.onrender.com/api/tasks/add",
         payload,
         { headers }
       );

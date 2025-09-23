@@ -11,10 +11,13 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await axios.post("http://localhost:4020/api/auth/login", {
-      email,
-      password,
-    });
+    const res = await axios.post(
+      "https://task-tracker-server-9z60.onrender.com/api/auth/login",
+      {
+        email,
+        password,
+      }
+    );
     login(res.data.token);
     userName(res.data.user.name);
     navigate("/");
