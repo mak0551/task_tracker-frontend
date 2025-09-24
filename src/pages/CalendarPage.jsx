@@ -7,7 +7,7 @@ export default function CalendarPage() {
   const navigate = useNavigate();
 
   const handleDateClick = (date) => {
-    const selected = date.toISOString().split("T")[0]; // YYYY-MM-DD
+  const selected = date.toLocaleDateString("sv-SE"); // always YYYY-MM-DD
     navigate(`/tasks/${selected}`);
   };
 
