@@ -7,8 +7,9 @@ export default function CalendarPage() {
   const navigate = useNavigate();
 
   const handleDateClick = (date) => {
-  const selected = date.toLocaleDateString("sv-SE"); // always YYYY-MM-DD
-    navigate(`/tasks/${selected}`);
+    const selected = date.toLocaleDateString("sv-SE"); // always YYYY-MM-DD
+    const dayName = date.toLocaleDateString("en-US", { weekday: "long" });
+    navigate(`/tasks/${selected}?day=${dayName}`);
   };
 
   return (

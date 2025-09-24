@@ -114,10 +114,15 @@ function MainSection() {
     month: "short",
     year: "numeric",
   });
+  const dayName = new Date(routeDate).toLocaleDateString("en-US", {
+    weekday: "long",
+  });
 
   return (
     <div className="max-w-4xl mx-auto p-4 font-mono">
-      <h1 className="text-2xl font-bold mb-4">Date: {formattedDate}</h1>
+      <h1 className="text-2xl font-bold mb-4 text-green-900">
+        Date: {formattedDate} ({dayName})
+      </h1>
 
       {load ? (
         <p>Loading...</p>
@@ -187,7 +192,11 @@ function MainSection() {
             >
               Save {loading && <Loader />}
             </button>
-            <button type="button" onClick={()=>navigate('/')} className="bg-green-50 border-2 border-green-900 text-green-900 px-4  text-sm py-2 rounded-md hover:bg-green-100 hover:scale-105 transition-transform duration-200">
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="bg-green-50 border-2 border-green-900 text-green-900 px-4  text-sm py-2 rounded-md hover:bg-green-100 hover:scale-105 transition-transform duration-200"
+            >
               Back
             </button>
           </div>
