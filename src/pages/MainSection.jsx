@@ -187,7 +187,7 @@ function MainSection() {
             >
               Save {loading && <Loader />}
             </button>
-            <button onClick={()=>navigate('/')} className="bg-green-50 border-2 border-green-900 text-green-900 px-4  text-sm py-2 rounded-md hover:bg-green-100 hover:scale-105 transition-transform duration-200">
+            <button type="button" onClick={()=>navigate('/')} className="bg-green-50 border-2 border-green-900 text-green-900 px-4  text-sm py-2 rounded-md hover:bg-green-100 hover:scale-105 transition-transform duration-200">
               Back
             </button>
           </div>
