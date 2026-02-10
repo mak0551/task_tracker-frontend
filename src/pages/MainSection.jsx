@@ -14,6 +14,7 @@ const initialTasks = {
   tahajjud: { done: false, comment: "" },
   asmaulhusna: { done: false, comment: "" },
   dalailulkhairat: { done: false, comment: "" },
+  quran: { done: false, comment: "" },
   muraqaba: { done: false, comment: "" },
   tasawwureshaikh: { done: false, comment: "" },
   duroodCount: { done: false, comment: "" },
